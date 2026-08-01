@@ -1,12 +1,67 @@
 <!doctype html>
 <html lang="ja">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="整数の素数判定、約数、因数の組を表示します。"><title>素数判定</title><link rel="stylesheet" href="style.css"></head>
-<body><main class="app-shell">
-<header class="page-header"><p class="series">Prime Number Checker</p><h1 id="app-title">素数判定</h1><p class="lead">整数の素数判定・約数・因数の組を確認できます。</p></header>
-<section class="search-panel" aria-labelledby="app-title"><form id="prime-form" novalidate><label for="number-input">調べたい整数</label><div class="input-row"><input id="number-input" name="number" type="text" inputmode="numeric" autocomplete="off" placeholder="例：127" aria-describedby="input-note error-message"><button type="submit">判定する</button></div><div class="form-meta"><span id="input-note">1〜1,000,000,000,000</span><button class="random-button" id="random-button" type="button">ランダム入力</button></div><p id="error-message" class="error" role="alert"></p></form></section>
-<section id="result" class="result" aria-live="polite" hidden><div class="result-top"><div id="result-icon" class="result-icon" aria-hidden="true">✓</div><div><p id="result-kicker" class="result-kicker"></p><h2 id="result-title"></h2></div></div><p id="result-description" class="result-description"></p><div id="divisor-area" class="divisor-area" hidden><div class="section-heading"><h3>約数</h3><span id="divisor-count"></span></div><div id="divisor-list" class="divisor-list"></div></div><div id="factor-area" class="factor-area"><div class="section-heading"><h3>因数の組</h3><span id="factor-count"></span></div><div id="factor-list" class="factor-list"></div></div></section>
-<section id="nearby-area" class="nearby-area" aria-labelledby="nearby-title" hidden><div class="section-heading"><h2 id="nearby-title">前後の整数</h2><span id="nearby-count"></span></div><div class="table-wrap"><table><thead><tr><th>位置</th><th>整数</th><th>判定</th></tr></thead><tbody id="nearby-body"></tbody></table></div><p class="table-note"><span></span>赤色は素数を示します。</p></section>
-<footer><a href="https://github.com/aeia820/prime-number-checker" target="_blank" rel="noopener noreferrer" aria-label="GitHubで aeia820/prime-number-checker を開く"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a12 12 0 0 0-3.79 23.38c.6.11.82-.26.82-.58v-2.1c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 6.92c1.02 0 2.04.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v2.87c0 .32.22.7.83.58A12 12 0 0 0 12 .7Z"/></svg><span>aeia820</span></a></footer></main><script src="script.js"></script></body></html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="整数の素数判定、約数、素因数分解、周辺の素数分布を表示します。">
+  <title>素数判定</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app-shell">
+  <header class="page-header">
+    <p class="series">Prime Number Checker</p>
+    <h1 id="app-title">素数判定</h1>
+    <p class="lead">整数の素数判定・約数・因数の組を確認できます。</p>
+  </header>
 
+  <section class="search-panel" aria-labelledby="app-title">
+    <form id="prime-form" novalidate>
+      <label for="number-input">調べたい整数</label>
+      <div class="input-row"><input id="number-input" name="number" type="text" inputmode="numeric" autocomplete="off" placeholder="例：127" aria-describedby="input-note error-message"><button type="submit">判定する</button></div>
+      <div class="form-meta"><span id="input-note">1〜1,000,000,000,000</span><button class="random-button" id="random-button" type="button">ランダム入力</button></div>
+      <p id="error-message" class="error" role="alert"></p>
+    </form>
+  </section>
 
+  <section id="result" class="result" aria-live="polite" hidden>
+    <div class="result-top"><div id="result-icon" class="result-icon" aria-hidden="true">✓</div><div><p id="result-kicker" class="result-kicker"></p><h2 id="result-title"></h2></div></div>
+    <p id="result-description" class="result-description"></p>
+    <div id="divisor-area" class="divisor-area" hidden><div class="section-heading"><h3>約数</h3><span id="divisor-count"></span></div><div id="divisor-list" class="divisor-list"></div></div>
+    <div class="number-detail">
+      <div class="tabs" role="tablist" aria-label="因数の詳細">
+        <button class="tab is-active" id="factor-tab" role="tab" aria-selected="true" aria-controls="factor-panel" data-tab-group="factor" data-tab-target="factor-panel">因数の組</button>
+        <button class="tab" id="prime-factor-tab" role="tab" aria-selected="false" aria-controls="prime-factor-panel" data-tab-group="factor" data-tab-target="prime-factor-panel">素因数分解</button>
+      </div>
+      <div id="factor-panel" class="tab-panel" role="tabpanel" aria-labelledby="factor-tab"><div class="section-meta"><span id="factor-count"></span></div><div id="factor-list" class="factor-list"></div></div>
+      <div id="prime-factor-panel" class="tab-panel" role="tabpanel" aria-labelledby="prime-factor-tab" hidden><div id="prime-factor-expression" class="formula"></div><p id="prime-factor-note" class="panel-note"></p></div>
+    </div>
+  </section>
 
+  <section id="nearby-area" class="nearby-area" aria-labelledby="nearby-heading" hidden>
+    <div class="tabs" role="tablist" aria-label="周辺の整数">
+      <button class="tab is-active" id="nearby-integers-tab" role="tab" aria-selected="true" aria-controls="nearby-integers-panel" data-tab-group="nearby" data-tab-target="nearby-integers-panel">前後の整数</button>
+      <button class="tab" id="nearby-primes-tab" role="tab" aria-selected="false" aria-controls="nearby-primes-panel" data-tab-group="nearby" data-tab-target="nearby-primes-panel">前後の素数</button>
+    </div>
+    <div id="nearby-integers-panel" class="tab-panel" role="tabpanel" aria-labelledby="nearby-integers-tab">
+      <div class="section-heading"><h2 id="nearby-heading">前後の整数</h2><span id="nearby-count"></span></div>
+      <div class="table-wrap"><table><thead><tr><th>位置</th><th>整数</th><th>判定</th></tr></thead><tbody id="nearby-body"></tbody></table></div>
+      <p class="table-note"><span></span>赤色は素数を示します。</p>
+    </div>
+    <div id="nearby-primes-panel" class="tab-panel" role="tabpanel" aria-labelledby="nearby-primes-tab" hidden>
+      <div class="prime-gap-grid"><article><p>直前の素数</p><strong id="previous-prime"></strong><span id="previous-gap"></span></article><article><p>直後の素数</p><strong id="next-prime"></strong><span id="next-gap"></span></article></div>
+      <div class="gap-summary"><span>素数間隔</span><strong id="prime-gap"></strong><p id="gap-note"></p></div>
+    </div>
+  </section>
+
+  <section id="visualization-area" class="visualization-area" aria-labelledby="visualization-title" hidden>
+    <div class="section-heading"><div><p class="section-kicker">PRIME DISTRIBUTION</p><h2 id="visualization-title">周辺の素数分布</h2></div><span id="visualization-range"></span></div>
+    <div id="prime-chart" class="prime-chart" role="img" aria-label="周辺の整数における素数の分布"></div>
+    <div class="chart-legend"><span><i class="prime-key"></i>素数</span><span><i class="current-key"></i>現在値</span></div>
+  </section>
+
+  <footer><a href="https://github.com/aeia820/prime-number-checker" target="_blank" rel="noopener noreferrer" aria-label="GitHubで aeia820/prime-number-checker を開く"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a12 12 0 0 0-3.79 23.38c.6.11.82-.26.82-.58v-2.1c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 6.92c1.02 0 2.04.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v2.87c0 .32.22.7.83.58A12 12 0 0 0 12 .7Z"/></svg><span>aeia820</span></a></footer>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
