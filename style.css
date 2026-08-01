@@ -79,3 +79,18 @@
 .floating-guide-menu .floating-back{padding-left:13px;color:var(--accent)}
 .term-section{scroll-margin-top:20px;scroll-margin-bottom:100px}
 @media(max-width:600px){.guide-shell{padding-bottom:100px}.floating-guide-menu{bottom:10px;width:calc(100% - 20px);justify-content:stretch;padding:4px}.floating-guide-menu a{min-width:0;flex:1;flex-direction:column;gap:2px;padding:7px 3px;border-right:0;text-align:center;font-size:.64rem}.floating-guide-menu .floating-back{flex:1.55;padding:7px 3px}.floating-guide-menu .floating-back span:first-child{display:none}.floating-guide-menu b{font-size:.55rem}}
+
+/* Chart layering and adaptive mobile axis labels */
+.chart-point{isolation:isolate}
+.chart-point.is-current{z-index:10}
+.chart-point.is-current .chart-bar{position:relative;z-index:10;outline:3px solid var(--accent);outline-offset:2px}
+@media(max-width:380px){
+  .prime-chart .chart-point .chart-label{display:none!important}
+  .prime-chart .chart-point:nth-child(5n+1) .chart-label,.prime-chart .chart-point.is-current .chart-label{display:block!important}
+}
+@media(min-width:381px) and (max-width:600px){
+  .prime-chart .chart-point .chart-label{display:none!important}
+  .prime-chart .chart-point:nth-child(4n+1) .chart-label,.prime-chart .chart-point.is-current .chart-label{display:block!important}
+}
+
+.prime-chart{padding-left:4px;padding-right:4px}

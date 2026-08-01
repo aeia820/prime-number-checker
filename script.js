@@ -99,7 +99,7 @@ function renderVisualization(number) {
   const end = Math.min(MAX, number + 20);
   const chart = $('#prime-chart');
   chart.replaceChildren();
-  const relativeScale = String(number).length >= 7;
+  const relativeScale = String(number).length >= 4;
   chart.classList.toggle('uses-relative-scale', relativeScale);
   chart.style.gridTemplateColumns = `repeat(${end - start + 1}, minmax(0, 1fr))`;
   for (let value = start; value <= end; value += 1) {
@@ -187,5 +187,6 @@ form.addEventListener('submit', (event) => {
 });
 $('#random-button').addEventListener('click', () => { input.value = Math.floor(Math.random() * 9999 + 2); error.textContent = ''; showResult(Number(input.value)); });
 input.addEventListener('input', () => { error.textContent = ''; });
+
 
 
