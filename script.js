@@ -142,8 +142,8 @@ function renderVisualization(number) {
   const end = Math.min(MAX, number + 20);
   const chart = $('#prime-chart');
   chart.replaceChildren();
-  const relativeScale = String(number).length >= 4;
-  chart.classList.toggle('uses-relative-scale', relativeScale);
+  const usesLongLabels = String(number).length >= 7;
+  chart.classList.toggle('uses-long-labels', usesLongLabels);
   chart.style.gridTemplateColumns = `repeat(${end - start + 1}, minmax(0, 1fr))`;
   for (let value = start; value <= end; value += 1) {
     const point = document.createElement('div');
@@ -155,11 +155,10 @@ function renderVisualization(number) {
     const bar = document.createElement('span'); bar.className = 'chart-bar';
     const label = document.createElement('span');
     label.className = 'chart-label';
-    const offset = value - number;
-    label.textContent = relativeScale ? (offset === 0 ? '±0' : `${offset > 0 ? '+' : ''}${offset}`) : value.toLocaleString('ja-JP');
+    label.textContent = value.toLocaleString('ja-JP');
     point.append(bar, label); chart.appendChild(point);
   }
-  $('#visualization-range').textContent = relativeScale ? `現在値 ${number.toLocaleString('ja-JP')} を基準に ±20` : `${start.toLocaleString('ja-JP')}〜${end.toLocaleString('ja-JP')}`;
+  $('#visualization-range').textContent = `${start.toLocaleString('ja-JP')}〜${end.toLocaleString('ja-JP')}`;
   chart.setAttribute('aria-label', `${start}から${end}までの素数分布。赤色が素数、枠線が現在値です。`);
   visualizationArea.hidden = false;
 }
@@ -244,4 +243,28 @@ $('#history-list').addEventListener('click', (event) => {
 renderHistory();
 
 
+
+
+const SURPRISING_PRIMES = [
+  1009, 10007, 100003, 111119, 123457, 987659, 1000003, 10000019,
+  12345701, 123456791, 271828199, 314159311, 666666667, 777777799,
+  1000000007, 9876543211
+];
+
+function renderSurprisingPrimes() {
+  const verified = SURPRISING_PRIMES.filter(isPrime);
+  const selected = [...verified].sort(() => Math.random() - 0.5).slice(0, 5);
+  const list = $('#surprising-primes-list');
+  list.replaceChildren();
+  selected.forEach((number) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = number.toLocaleString('ja-JP');
+    button.title = `${number.toLocaleString('ja-JP')}を入力欄へ移す`;
+    button.addEventListener('click', () => { input.value = number; input.focus(); });
+    list.appendChild(button);
+  });
+}
+
+renderSurprisingPrimes();
 

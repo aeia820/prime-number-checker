@@ -178,3 +178,27 @@
 .comment-meta strong{font-size:.78rem}.comment-meta time{color:var(--muted);font-size:.62rem}
 .comment-item>p{margin:11px 0 0 44px}
 @media(max-width:600px){.comments-area{padding:20px 14px}.comment-form{padding:16px 13px}.comment-submit-row{align-items:stretch}.comment-item{padding:15px 13px}.comment-item>p{margin-left:0}.history-list li a{grid-template-columns:1fr auto}.history-list time{grid-column:1/-1}}
+
+/* Prime distribution as an equal-weight number-line plot */
+.prime-chart{align-items:center;min-height:148px;padding-top:28px;padding-bottom:50px}
+.prime-chart .chart-point{height:38px;align-items:center}
+.prime-chart .chart-point .chart-bar,.prime-chart .chart-point.is-prime .chart-bar{height:24px;background:#d9dee1}
+.prime-chart .chart-point.is-prime .chart-bar{background:var(--prime)}
+.prime-chart .chart-label{bottom:-31px;transform:translateX(-50%);transform-origin:top center}
+.prime-chart.uses-long-labels .chart-label{bottom:-37px;transform:translateX(-50%) rotate(-38deg);transform-origin:top center}
+@media(max-width:600px){
+  .prime-chart{min-height:142px;padding-bottom:48px}
+  .prime-chart.uses-long-labels .chart-point .chart-label{display:none!important}
+  .prime-chart.uses-long-labels .chart-point:nth-child(10n+1) .chart-label,.prime-chart.uses-long-labels .chart-point.is-current .chart-label{display:block!important}
+}
+
+/* Unexpected primes */
+.surprising-primes{margin-top:10px;padding:16px;border:1px solid var(--line);border-left:3px solid var(--prime);background:var(--paper)}
+.surprising-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.surprising-heading h2{margin:2px 0 0;font:700 .9rem "Source Serif 4","Noto Sans JP",serif}
+.surprising-heading>span{color:var(--muted);font-size:.62rem}
+.surprising-primes>p{margin:10px 0 13px;color:var(--muted);font-size:.69rem;line-height:1.7}
+.surprising-primes-list{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.surprising-primes-list button{min-width:0;padding:8px 4px;border:1px solid var(--line);background:var(--soft);color:var(--accent);cursor:pointer;font:700 clamp(.62rem,1.6vw,.75rem) "Source Serif 4",serif;overflow:hidden;text-overflow:ellipsis}
+.surprising-primes-list button:hover{border-color:var(--accent);background:#e9eef2}
+@media(max-width:600px){.surprising-primes-list{grid-template-columns:1fr 1fr}.surprising-primes-list button:last-child{grid-column:1/-1}.surprising-primes{padding:14px 12px}}
