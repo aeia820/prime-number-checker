@@ -99,7 +99,9 @@ function renderVisualization(number) {
   const end = Math.min(MAX, number + 20);
   const chart = $('#prime-chart');
   chart.replaceChildren();
-  chart.style.gridTemplateColumns = `repeat(${end - start + 1}, minmax(13px, 1fr))`;
+  const relativeScale = String(number).length >= 7;
+  chart.classList.toggle('uses-relative-scale', relativeScale);
+  chart.style.gridTemplateColumns = `repeat(${end - start + 1}, minmax(0, 1fr))`;
   for (let value = start; value <= end; value += 1) {
     const point = document.createElement('div');
     point.className = 'chart-point';
@@ -108,10 +110,13 @@ function renderVisualization(number) {
     if (value === number) point.classList.add('is-current');
     point.title = `${value.toLocaleString('ja-JP')}：${prime ? '素数' : '素数ではない'}${value === number ? '（現在値）' : ''}`;
     const bar = document.createElement('span'); bar.className = 'chart-bar';
-    const label = document.createElement('span'); label.className = 'chart-label'; label.textContent = value.toLocaleString('ja-JP');
+    const label = document.createElement('span');
+    label.className = 'chart-label';
+    const offset = value - number;
+    label.textContent = relativeScale ? (offset === 0 ? '±0' : `${offset > 0 ? '+' : ''}${offset}`) : value.toLocaleString('ja-JP');
     point.append(bar, label); chart.appendChild(point);
   }
-  $('#visualization-range').textContent = `${start.toLocaleString('ja-JP')}〜${end.toLocaleString('ja-JP')}`;
+  $('#visualization-range').textContent = relativeScale ? `現在値 ${number.toLocaleString('ja-JP')} を基準に ±20` : `${start.toLocaleString('ja-JP')}〜${end.toLocaleString('ja-JP')}`;
   chart.setAttribute('aria-label', `${start}から${end}までの素数分布。赤色が素数、枠線が現在値です。`);
   visualizationArea.hidden = false;
 }
@@ -182,3 +187,5 @@ form.addEventListener('submit', (event) => {
 });
 $('#random-button').addEventListener('click', () => { input.value = Math.floor(Math.random() * 9999 + 2); error.textContent = ''; showResult(Number(input.value)); });
 input.addEventListener('input', () => { error.textContent = ''; });
+
+

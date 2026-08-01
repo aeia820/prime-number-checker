@@ -43,3 +43,28 @@
 .prime-key{background:var(--prime)}
 .current-key{border:2px solid var(--accent);background:#d9dee1}
 @media(max-width:520px){.tab{flex:1;padding:10px 6px}.prime-gap-grid{grid-template-columns:1fr}.visualization-area{padding:18px 14px}.prime-chart{grid-template-columns:repeat(41,13px)}}
+
+/* Glossary links */
+.term-links{display:flex;flex-wrap:wrap;align-items:center;gap:7px 13px;margin-top:14px;color:var(--muted);font-size:.72rem}
+.term-links a{color:var(--accent);font-weight:600;text-underline-offset:3px}
+
+/* Responsive chart scale: never introduces horizontal scrolling */
+.prime-chart{grid-template-columns:repeat(41,minmax(0,1fr));overflow:hidden}
+.chart-point{min-width:0}
+.chart-bar{min-width:2px}
+.chart-label{font-size:clamp(.46rem,1.15vw,.58rem)}
+
+/* Explanatory guide */
+.guide-shell{width:min(900px,calc(100% - 32px));margin:auto;padding:48px 0 32px}
+.guide-header{padding-bottom:32px;border-bottom:2px solid var(--ink)}
+.back-link{display:inline-block;margin-bottom:32px;color:var(--accent);font-size:.78rem;font-weight:600;text-decoration:none}
+.back-link:hover{text-decoration:underline}
+.guide-lead{max-width:650px;margin:12px 0 0;color:var(--muted);line-height:1.8;font-size:.92rem}
+.guide-nav{display:grid;grid-template-columns:repeat(4,1fr);margin-top:28px;border:1px solid var(--line)}
+.guide-nav a{padding:13px;border-right:1px solid var(--line);color:var(--accent);font-size:.75rem;font-weight:600;text-align:center;text-decoration:none}
+.guide-nav a:last-child{border-right:0}.guide-nav a:hover{background:var(--soft)}
+.guide-content{background:var(--paper)}
+.term-section{display:grid;grid-template-columns:80px 1fr;gap:24px;padding:56px 36px;border-bottom:1px solid var(--line);scroll-margin-top:18px}
+.term-number{color:#c9d0d4;font:700 2.5rem "Source Serif 4",serif}
+.term-body{max-width:700px}.term-en{margin:0;color:var(--accent);font-size:.62rem;font-weight:700;letter-spacing:.15em}.term-body h2{margin:3px 0 20px;font:700 2rem "Source Serif 4","Noto Sans JP",serif}.term-body h3{margin:28px 0 8px;font-size:.92rem}.term-body>p{color:#43505a;font-size:.88rem;line-height:2}.definition{padding-left:16px;border-left:3px solid var(--accent);color:var(--ink)!important;font-size:1rem!important}.math{font-family:"Source Serif 4","Noto Sans JP",serif;font-weight:600}.example-box{display:grid;grid-template-columns:42px 1fr;gap:12px;margin:22px 0;padding:16px;background:var(--soft)}.example-box>span{color:var(--accent);font-size:.72rem;font-weight:700}.example-box p{margin:0;font-size:.84rem;line-height:1.8}.rigor{margin-top:28px;padding:18px;border:1px solid var(--line);background:#f8fafb}.rigor>strong{color:var(--accent);font-size:.75rem}.rigor p{margin:7px 0 0;color:#43505a;font-size:.82rem;line-height:1.9}
+@media(max-width:600px){.term-links>span{width:100%}.guide-shell{padding-top:28px}.guide-nav{grid-template-columns:1fr 1fr}.guide-nav a:nth-child(2){border-right:0}.guide-nav a:nth-child(-n+2){border-bottom:1px solid var(--line)}.term-section{grid-template-columns:1fr;gap:5px;padding:38px 20px}.term-number{font-size:1.4rem}.term-body h2{font-size:1.65rem}.prime-chart{gap:1px}.chart-point:not(.is-current) .chart-label{display:none}}
