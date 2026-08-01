@@ -136,3 +136,25 @@
 .floating-guide-menu .floating-menu-links a:last-child{border-bottom:0}
 .floating-guide-menu .floating-menu-links .floating-back{flex:1;padding:11px 8px}
 .floating-guide-menu .floating-menu-links .floating-back span:first-child{display:inline}
+
+/* Recent checks */
+.history-box{margin-top:18px;padding:16px;border:1px solid var(--line);background:var(--paper)}
+.history-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.history-heading h2{margin:0;font:700 .88rem "Source Serif 4","Noto Sans JP",serif}
+.history-heading button{padding:0;border:0;border-bottom:1px solid currentColor;background:transparent;color:var(--muted);cursor:pointer;font:600 .65rem "Noto Sans JP",sans-serif}
+.history-list{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:0;padding:0;list-style:none}
+.history-list li a{display:grid;width:100%;grid-template-columns:1fr auto auto;align-items:center;gap:9px;padding:8px 10px;border:0;background:var(--soft);color:var(--ink);cursor:pointer;text-align:left;text-decoration:none}
+.history-list li a:hover{background:#e9eef0}
+.history-list strong{font-family:"Source Serif 4",serif;font-size:.85rem}.history-list span{color:var(--muted);font-size:.65rem}.history-list .history-prime{color:var(--prime);font-weight:700}.history-list time{color:#899198;font-size:.6rem}.history-list .empty-state{grid-column:1/-1}
+.empty-state{margin:0;padding:16px;color:var(--muted);font-size:.75rem;text-align:center}
+
+/* Public comments */
+.comments-area{margin-top:18px;padding:24px;border:1px solid var(--line);background:var(--paper)}
+.comments-header{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.comments-header h2{margin:2px 0 0;font:700 1.15rem "Source Serif 4","Noto Sans JP",serif}.comments-header>span{color:var(--muted);font-size:.68rem}
+.comment-form{display:grid;grid-template-columns:180px 1fr;gap:14px;margin-top:20px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.comment-field{position:relative}.comment-field label{margin-bottom:7px}.comment-field input,.comment-field textarea{width:100%;padding:11px 12px;border:1px solid #aeb7bd;border-radius:3px;outline:none;background:#fff;color:var(--ink);font:400 .82rem "Noto Sans JP",sans-serif;resize:vertical}.comment-field input:focus,.comment-field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 2px #244c6a1f}.comment-field textarea{min-height:96px}.comment-field>span{position:absolute;right:7px;bottom:5px;color:var(--muted);font-size:.6rem}.comment-honeypot{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important}
+.comment-submit-row{display:flex;grid-column:1/-1;align-items:center;justify-content:flex-end;gap:15px}.comment-submit-row p{flex:1;margin:0;color:var(--muted);font-size:.72rem}.comment-submit-row button{padding:10px 18px;border:0;border-radius:3px;background:var(--accent);color:#fff;cursor:pointer;font:600 .78rem "Noto Sans JP",sans-serif}.comment-submit-row button:disabled{cursor:wait;opacity:.6}
+.comments-list{display:grid;gap:0}.comment-item{padding:18px 2px;border-bottom:1px solid #e1e5e7}.comment-item:last-child{border-bottom:0}.comment-item header{display:flex;align-items:baseline;justify-content:space-between;gap:12px}.comment-item strong{font-size:.8rem}.comment-item time{color:var(--muted);font-size:.65rem}.comment-item p{margin:9px 0 0;color:#43505a;font-size:.82rem;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}.comment-error{margin:0;padding:18px;color:var(--prime);font-size:.75rem;text-align:center}
+@media(max-width:600px){.history-list{grid-template-columns:1fr}.comments-area{padding:18px 14px}.comment-form{grid-template-columns:1fr}.comment-submit-row{align-items:flex-end;flex-direction:column}.comment-submit-row p{width:100%}.comment-submit-row button{width:100%}.comment-item header{align-items:flex-start;flex-direction:column;gap:3px}}
+

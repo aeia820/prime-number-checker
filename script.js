@@ -6,6 +6,49 @@ const result = $('#result');
 const nearbyArea = $('#nearby-area');
 const visualizationArea = $('#visualization-area');
 const MAX = 1_000_000_000_000;
+const HISTORY_KEY = 'prime-check-history-v1';
+
+function readHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+  catch { return []; }
+}
+
+function renderHistory() {
+  const list = $('#history-list');
+  const history = readHistory();
+  list.replaceChildren();
+  if (!history.length) {
+    const empty = document.createElement('li');
+    empty.className = 'empty-state';
+    empty.textContent = 'まだ判定履歴はありません。';
+    list.appendChild(empty);
+    return;
+  }
+  history.forEach((entry) => {
+    const item = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = '#number-input';
+    link.dataset.number = entry.number;
+    const value = document.createElement('strong');
+    value.textContent = Number(entry.number).toLocaleString('ja-JP');
+    const status = document.createElement('span');
+    status.className = entry.prime ? 'history-prime' : '';
+    status.textContent = entry.prime ? '素数' : '素数ではない';
+    const date = document.createElement('time');
+    date.dateTime = entry.checkedAt;
+    date.textContent = new Intl.DateTimeFormat('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(entry.checkedAt));
+    link.append(value, status, date);
+    item.appendChild(link);
+    list.appendChild(item);
+  });
+}
+
+function saveHistory(number, prime) {
+  const history = readHistory();
+  history.unshift({ number, prime, checkedAt: new Date().toISOString() });
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, 10))); } catch { /* Storage may be disabled. */ }
+  renderHistory();
+}
 
 function isPrime(number) {
   if (number < 2) return false;
@@ -160,6 +203,7 @@ function showResult(number) {
     divisors.forEach((value) => { const chip = document.createElement('span'); chip.textContent = value.toLocaleString('ja-JP'); divisorList.appendChild(chip); });
   }
 
+  saveHistory(number, prime);
   renderFactorDetails(number, formatted);
   renderNearbyIntegers(number);
   renderPrimeGap(number);
@@ -188,5 +232,19 @@ form.addEventListener('submit', (event) => {
 $('#random-button').addEventListener('click', () => { input.value = Math.floor(Math.random() * 9999 + 2); error.textContent = ''; showResult(Number(input.value)); });
 input.addEventListener('input', () => { error.textContent = ''; });
 
+
+
+
+$('#history-list').addEventListener('click', (event) => {
+  const link = event.target.closest('a[data-number]');
+  if (!link) return;
+  input.value = link.dataset.number;
+  input.focus();
+});
+$('#clear-history').addEventListener('click', () => {
+  localStorage.removeItem(HISTORY_KEY);
+  renderHistory();
+});
+renderHistory();
 
 
