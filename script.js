@@ -253,7 +253,7 @@ const SURPRISING_PRIMES = [
 
 function renderSurprisingPrimes() {
   const verified = SURPRISING_PRIMES.filter(isPrime);
-  const selected = [...verified].sort(() => Math.random() - 0.5).slice(0, 5);
+  const selected = [...verified].sort(() => Math.random() - 0.5).slice(0, 4);
   const list = $('#surprising-primes-list');
   list.replaceChildren();
   selected.forEach((number) => {
@@ -267,4 +267,5 @@ function renderSurprisingPrimes() {
 }
 
 renderSurprisingPrimes();
+
 
