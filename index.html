@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="整数の素数判定、約数、因数の組を表示します。"><title>素数判定</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="app-shell">
+<header class="page-header"><p class="series">ELEMENTARY NUMBER THEORY</p><h1 id="app-title">素数判定</h1><p class="lead">整数の素数判定・約数・因数の組を確認できます。</p></header>
+<section class="search-panel" aria-labelledby="app-title"><form id="prime-form" novalidate><label for="number-input">調べたい整数</label><div class="input-row"><input id="number-input" name="number" type="text" inputmode="numeric" autocomplete="off" placeholder="例：127" aria-describedby="input-note error-message"><button type="submit">判定する</button></div><div class="form-meta"><span id="input-note">1〜1,000,000,000,000</span><button class="random-button" id="random-button" type="button">ランダム入力</button></div><p id="error-message" class="error" role="alert"></p></form></section>
+<section id="result" class="result" aria-live="polite" hidden><div class="result-top"><div id="result-icon" class="result-icon" aria-hidden="true">✓</div><div><p id="result-kicker" class="result-kicker"></p><h2 id="result-title"></h2></div></div><p id="result-description" class="result-description"></p><div id="divisor-area" class="divisor-area" hidden><div class="section-heading"><h3>約数</h3><span id="divisor-count"></span></div><div id="divisor-list" class="divisor-list"></div></div><div id="factor-area" class="factor-area"><div class="section-heading"><h3>因数の組</h3><span id="factor-count"></span></div><div id="factor-list" class="factor-list"></div></div></section>
+<section id="nearby-area" class="nearby-area" aria-labelledby="nearby-title" hidden><div class="section-heading"><h2 id="nearby-title">前後の整数</h2><span id="nearby-count"></span></div><div class="table-wrap"><table><thead><tr><th>位置</th><th>整数</th><th>判定</th></tr></thead><tbody id="nearby-body"></tbody></table></div><p class="table-note"><span></span>赤色は素数を示します。</p></section>
+<footer>Prime Number Checker</footer></main><script src="script.js"></script></body></html>
+
+
