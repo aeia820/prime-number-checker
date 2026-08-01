@@ -369,22 +369,21 @@ input.addEventListener('input', () => { error.textContent = ''; });
 $('#history-list').addEventListener('click', (event) => {
   const link = event.target.closest('a[data-number]');
   if (!link) return;
+  event.preventDefault();
   input.value = link.dataset.number;
-  input.focus();
+  showResult(Number(link.dataset.number));
 });
 renderHistory();
 
 
 
 
-const SURPRISING_PRIMES = [
-  1009, 10007, 100003, 111119, 123457, 987659, 1000003, 10000019,
-  12345701, 123456791, 271828199, 314159311, 666666667, 777777799,
-  1000000007, 9876543211
+const SURPRISING_NON_PRIMES = [
+  57, 91, 341, 561, 1105, 1729, 2047, 2465,
+  2821, 6601, 8911, 41041, 825265, 3215031751
 ];
-
 function renderSurprisingPrimes() {
-  const verified = SURPRISING_PRIMES.filter(isPrime);
+  const verified = SURPRISING_NON_PRIMES.filter((number) => number > 1 && !isPrime(number));
   const selected = [...verified].sort(() => Math.random() - 0.5).slice(0, 4);
   const list = $('#surprising-primes-list');
   list.replaceChildren();
@@ -392,13 +391,18 @@ function renderSurprisingPrimes() {
     const button = document.createElement('button');
     button.type = 'button';
     button.textContent = number.toLocaleString('ja-JP');
-    button.title = `${number.toLocaleString('ja-JP')}を入力欄へ移す`;
-    button.addEventListener('click', () => { input.value = number; input.focus(); });
+    const factor = getPrimeFactors(number)[0][0];
+    button.title = `${number.toLocaleString('ja-JP')} = ${factor.toLocaleString('ja-JP')} × ${(number / factor).toLocaleString('ja-JP')}`;
+    button.addEventListener('click', () => { input.value = number; showResult(number); });
     list.appendChild(button);
   });
 }
 
 renderSurprisingPrimes();
+
+
+
+
 
 
 
