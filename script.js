@@ -380,7 +380,7 @@ renderHistory();
 
 const SURPRISING_NON_PRIMES = [
   57, 91, 341, 561, 1105, 1729, 2047, 2465,
-  2821, 6601, 8911, 41041, 825265, 3215031751
+  2821, 6601, 8911
 ];
 function renderSurprisingPrimes() {
   const verified = SURPRISING_NON_PRIMES.filter((number) => number > 1 && !isPrime(number));
@@ -399,6 +399,8 @@ function renderSurprisingPrimes() {
 }
 
 renderSurprisingPrimes();
+
+
 
 
 
