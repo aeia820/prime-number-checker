@@ -183,6 +183,135 @@ function renderFactorDetails(number, formatted) {
   }
 }
 
+function isPerfectSquare(number) {
+  return Number.isInteger(Math.sqrt(number));
+}
+
+function isPerfectCube(number) {
+  const root = Math.round(Math.cbrt(number));
+  return root ** 3 === number;
+}
+
+function isTriangular(number) {
+  return Number.isInteger(Math.sqrt(8 * number + 1));
+}
+
+function isFibonacci(number) {
+  let previous = 0, current = 1;
+  while (current < number) [previous, current] = [current, previous + current];
+  return number === 0 || current === number;
+}
+
+function renderNumberProfile(number, divisors, prime) {
+  const tags = [];
+  tags.push([number % 2 === 0 ? '偶数' : '奇数', number % 2 === 0 ? '2で割り切れる整数' : '2で割り切れない整数']);
+  tags.push([prime ? '素数' : number === 1 ? '単数' : '合成数', prime ? '正の約数が1とその数自身だけ' : number === 1 ? '乗法の単位元' : '1と自身以外にも約数を持つ整数']);
+  if (isPerfectSquare(number)) tags.push(['平方数', 'ある整数の2乗で表せる数']);
+  if (isPerfectCube(number)) tags.push(['立方数', 'ある整数の3乗で表せる数']);
+  if (isTriangular(number)) tags.push(['三角数', '1からある整数までの和で表せる数']);
+  if (String(number) === [...String(number)].reverse().join('')) tags.push(['回文数', '数字を逆から読んでも同じ数']);
+  if (isFibonacci(number)) tags.push(['フィボナッチ数', 'フィボナッチ数列に現れる数']);
+  if (number > 1 && !prime) {
+    const properSum = divisors.slice(0, -1).reduce((sum, divisor) => sum + divisor, 0);
+    if (properSum === number) tags.push(['完全数', '自分自身を除く約数の和が元の数と等しい']);
+    else if (properSum > number) tags.push(['過剰数', '自分自身を除く約数の和が元の数より大きい']);
+    else tags.push(['不足数', '自分自身を除く約数の和が元の数より小さい']);
+    const factorMultiplicity = getPrimeFactors(number).reduce((sum, [, exponent]) => sum + exponent, 0);
+    if (factorMultiplicity === 2) tags.push(['半素数', '2つの素数の積で表せる数']);
+  }
+  const container = $('#profile-tags');
+  container.replaceChildren();
+  tags.forEach(([label, description]) => {
+    const tag = document.createElement('span'); tag.textContent = label; tag.title = description; tag.setAttribute('aria-label', `${label}：${description}`); container.appendChild(tag);
+  });
+  $('#profile-count').textContent = `${tags.length}項目`;
+}
+
+function primesUpTo(limit) {
+  if (limit < 2) return [];
+  const composite = new Uint8Array(limit + 1);
+  const primes = [];
+  for (let value = 2; value <= limit; value += 1) {
+    if (composite[value]) continue;
+    primes.push(value);
+    if (value * value <= limit) for (let multiple = value * value; multiple <= limit; multiple += value) composite[multiple] = 1;
+  }
+  return primes;
+}
+
+function renderPrimeCertificate(number, prime) {
+  const area = $('#certificate-area');
+  area.hidden = !prime;
+  if (!prime) return;
+  const limit = Math.floor(Math.sqrt(number));
+  const testedPrimes = primesUpTo(limit);
+  const approximateRoot = Math.sqrt(number).toLocaleString('ja-JP', { maximumFractionDigits: 3 });
+  $('#certificate-summary').textContent = `√${number.toLocaleString('ja-JP')} ≈ ${approximateRoot}。この範囲の素数で割り切れないことを確認しました。`;
+  const details = $('#certificate-details'); details.replaceChildren();
+  const theorem = document.createElement('p'); theorem.textContent = '合成数なら平方根以下の素因数を少なくとも1つ持つため、この確認で素数だと結論できます。'; details.appendChild(theorem);
+  const tested = document.createElement('p');
+  if (!testedPrimes.length) tested.textContent = '確認対象：なし（2は最小の素数）';
+  else if (testedPrimes.length <= 16) tested.textContent = `確認した素数：${testedPrimes.map((value) => value.toLocaleString('ja-JP')).join('、')}`;
+  else tested.textContent = `確認した素数：2、3、5、7、11、…、${testedPrimes.at(-1).toLocaleString('ja-JP')}（計${testedPrimes.length.toLocaleString('ja-JP')}個）`;
+  details.appendChild(tested);
+}
+
+function createSvgElement(name, attributes = {}) {
+  const element = document.createElementNS('http://www.w3.org/2000/svg', name);
+  Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+  return element;
+}
+
+function sampleNetworkDivisors(number, divisors, primeFactors, limit = 24) {
+  const candidates = divisors.filter((value) => value !== number);
+  if (candidates.length <= limit) return candidates;
+  const required = [...new Set([1, ...primeFactors])];
+  const selected = new Set(required);
+  const slots = Math.max(1, limit - selected.size);
+  for (let index = 0; index < slots; index += 1) {
+    const position = Math.round(index * (candidates.length - 1) / Math.max(1, slots - 1));
+    selected.add(candidates[position]);
+  }
+  return [...selected].sort((a, b) => a - b).slice(0, limit);
+}
+
+function renderDivisorNetwork(number, divisors) {
+  const area = $('#network-area');
+  const svg = $('#divisor-network');
+  svg.replaceChildren();
+  const title = createSvgElement('title'); title.textContent = `${number.toLocaleString('ja-JP')}と約数のネットワーク`;
+  const description = createSvgElement('desc'); description.textContent = '中央が入力値、周囲が約数です。赤色のノードは素因数です。';
+  svg.append(title, description);
+  const primeFactors = getPrimeFactors(number).map(([factor]) => factor);
+  const compact = window.innerWidth <= 600;
+  const shown = sampleNetworkDivisors(number, divisors, primeFactors, compact ? 16 : 24);
+  const canvasWidth = compact ? 420 : 760;
+  const canvasHeight = compact ? 450 : 390;
+  const centerX = canvasWidth / 2, centerY = canvasHeight / 2;
+  const radiusX = compact ? 172 : 310, radiusY = compact ? 182 : 142;
+  svg.setAttribute('viewBox', `0 0 ${canvasWidth} ${canvasHeight}`);
+  const positions = shown.map((value, index) => ({ value, x: centerX + radiusX * Math.cos(-Math.PI / 2 + index * Math.PI * 2 / Math.max(1, shown.length)), y: centerY + radiusY * Math.sin(-Math.PI / 2 + index * Math.PI * 2 / Math.max(1, shown.length)) }));
+  const edges = createSvgElement('g', { class: 'network-edges' });
+  positions.forEach(({ x, y }) => edges.appendChild(createSvgElement('line', { x1: centerX, y1: centerY, x2: x, y2: y })));
+  svg.appendChild(edges);
+  const nodes = createSvgElement('g', { class: 'network-nodes' });
+  positions.forEach(({ value, x, y }) => {
+    const classes = ['network-node', primeFactors.includes(value) ? 'is-prime-factor' : '', String(value).length > 6 ? 'is-long' : ''].filter(Boolean).join(' ');
+    const group = createSvgElement('g', { class: classes, transform: `translate(${x} ${y})` });
+    const circle = createSvgElement('circle', { r: 18 });
+    const text = createSvgElement('text', { 'text-anchor': 'middle', dy: '.32em' }); text.textContent = value.toLocaleString('ja-JP');
+    const tooltip = createSvgElement('title'); tooltip.textContent = `${value.toLocaleString('ja-JP')}${primeFactors.includes(value) ? '（素因数）' : '（約数）'}`;
+    group.append(circle, text, tooltip); nodes.appendChild(group);
+  });
+  svg.appendChild(nodes);
+  const center = createSvgElement('g', { class: 'network-center', transform: `translate(${centerX} ${centerY})` });
+  const width = Math.min(150, Math.max(82, String(number.toLocaleString('ja-JP')).length * 9 + 28));
+  center.appendChild(createSvgElement('rect', { x: -width / 2, y: -24, width, height: 48, rx: 6 }));
+  const centerText = createSvgElement('text', { 'text-anchor': 'middle', dy: '.34em' }); centerText.textContent = number.toLocaleString('ja-JP'); center.appendChild(centerText); svg.appendChild(center);
+  $('#network-count').textContent = `${divisors.length.toLocaleString('ja-JP')}個の約数`;
+  $('#network-note').textContent = divisors.length - 1 > shown.length ? `見やすさのため、${divisors.length - 1}個の周辺ノードから${shown.length}個を表示しています。素因数はすべて含まれます。` : '中央が入力値、周囲が約数です。赤色は素因数を示します。';
+  area.hidden = false;
+}
 function showResult(number) {
   const divisors = getDivisors(number);
   const prime = isPrime(number);
@@ -203,6 +332,9 @@ function showResult(number) {
   }
 
   saveHistory(number, prime);
+  renderNumberProfile(number, divisors, prime);
+  renderPrimeCertificate(number, prime);
+  renderDivisorNetwork(number, divisors);
   renderFactorDetails(number, formatted);
   renderNearbyIntegers(number);
   renderPrimeGap(number);
@@ -225,7 +357,7 @@ document.querySelectorAll('.tab').forEach((tab) => tab.addEventListener('click',
 form.addEventListener('submit', (event) => {
   event.preventDefault(); error.textContent = '';
   const parsed = parseInput(input.value);
-  if (parsed.error) { result.hidden = true; nearbyArea.hidden = true; visualizationArea.hidden = true; error.textContent = parsed.error; input.focus(); return; }
+  if (parsed.error) { result.hidden = true; nearbyArea.hidden = true; visualizationArea.hidden = true; $('#network-area').hidden = true; error.textContent = parsed.error; input.focus(); return; }
   showResult(parsed.number);
 });
 $('#random-button').addEventListener('click', () => { input.value = Math.floor(Math.random() * 9999 + 2); error.textContent = ''; showResult(Number(input.value)); });
@@ -267,5 +399,9 @@ function renderSurprisingPrimes() {
 }
 
 renderSurprisingPrimes();
+
+
+
+
 
 
