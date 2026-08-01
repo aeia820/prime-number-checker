@@ -120,3 +120,19 @@
   .floating-guide-menu .floating-menu-links .floating-back{flex:1;padding:11px 8px}
   .floating-guide-menu .floating-menu-links .floating-back span:first-child{display:inline}
 }
+
+/* Unified top-right hamburger navigation for every viewport */
+.guide-page{padding-right:0}
+.guide-page .guide-shell{width:min(900px,calc(100% - 32px));margin-left:auto;margin-right:auto;padding-top:70px;padding-bottom:32px}
+.floating-guide-menu{inset:12px 12px auto auto;width:auto;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;transform:none;backdrop-filter:none}
+.menu-toggle{display:flex;width:44px;height:44px;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:1px solid #aeb7bd;border-radius:6px;background:rgba(255,255,255,.97);box-shadow:0 4px 16px rgba(24,33,42,.14);cursor:pointer}
+.menu-toggle span{display:block;width:19px;height:2px;background:var(--ink);transition:transform .2s,opacity .2s}
+.floating-guide-menu[data-open="true"] .menu-toggle span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.floating-guide-menu[data-open="true"] .menu-toggle span:nth-child(2){opacity:0}
+.floating-guide-menu[data-open="true"] .menu-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.floating-menu-links{position:absolute;top:51px;right:0;display:none;width:190px;padding:5px;border:1px solid #b9c1c6;border-radius:7px;background:#fff;box-shadow:0 8px 30px rgba(24,33,42,.2)}
+.floating-guide-menu[data-open="true"] .floating-menu-links{display:flex;flex-direction:column}
+.floating-guide-menu .floating-menu-links a{display:flex;width:100%;flex-direction:row;justify-content:flex-start;gap:6px;padding:11px 10px;border-right:0;border-bottom:1px solid var(--line);text-align:left;font-size:.72rem}
+.floating-guide-menu .floating-menu-links a:last-child{border-bottom:0}
+.floating-guide-menu .floating-menu-links .floating-back{flex:1;padding:11px 8px}
+.floating-guide-menu .floating-menu-links .floating-back span:first-child{display:inline}
