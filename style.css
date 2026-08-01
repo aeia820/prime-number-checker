@@ -202,3 +202,11 @@
 .surprising-primes-list button{min-width:0;padding:8px 4px;border:1px solid var(--line);background:var(--soft);color:var(--accent);cursor:pointer;font:700 clamp(.62rem,1.6vw,.75rem) "Source Serif 4",serif;overflow:hidden;text-overflow:ellipsis}
 .surprising-primes-list button:hover{border-color:var(--accent);background:#e9eef2}
 @media(max-width:600px){.surprising-primes-list{grid-template-columns:1fr 1fr}.surprising-primes-list button:last-child{grid-column:1/-1}.surprising-primes{padding:14px 12px}}
+
+/* Two-row scrollable recent history */
+.history-list{display:grid;grid-template-columns:1fr;grid-auto-rows:43px;gap:5px;max-height:91px;overflow-x:hidden;overflow-y:auto;padding-right:4px;scrollbar-color:#aeb7bd var(--soft);scrollbar-width:thin}
+.history-list li{min-width:0}
+.history-list li a{height:43px;grid-template-columns:minmax(0,1fr) auto auto;overflow:hidden}
+.history-list strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.history-list::-webkit-scrollbar{width:7px}.history-list::-webkit-scrollbar-track{background:var(--soft)}.history-list::-webkit-scrollbar-thumb{border-radius:8px;background:#aeb7bd}
+@media(max-width:600px){.history-list{grid-auto-rows:43px;max-height:91px}.history-list li a{grid-template-columns:minmax(0,1fr) auto auto}.history-list time{grid-column:auto;font-size:.56rem}}
