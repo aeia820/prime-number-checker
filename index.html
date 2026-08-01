@@ -23,7 +23,7 @@
       <div class="form-meta"><span id="input-note">1〜1,000,000,000,000</span><button class="random-button" id="random-button" type="button">ランダム入力</button></div>
       <p id="error-message" class="error" role="alert"></p>
       <section class="history-box" aria-labelledby="history-title">
-        <div class="history-heading"><h2 id="history-title">過去の判定履歴</h2><button id="clear-history" type="button">履歴を消去</button></div>
+        <div class="history-heading"><h2 id="history-title">過去の判定履歴</h2><span>最新10件</span></div>
         <ol id="history-list" class="history-list"><li class="empty-state">まだ判定履歴はありません。</li></ol>
       </section>
     </form>
@@ -66,7 +66,7 @@
   </section>
 
   <section class="comments-area" aria-labelledby="comments-title">
-    <div class="comments-header"><div><p class="section-kicker">COMMENTS</p><h2 id="comments-title">コメント</h2></div><span>最新50件</span></div>
+    <div class="comments-header"><div><p class="section-kicker">GUESTBOOK</p><h2 id="comments-title">コメント</h2><p>素数やこのページについて、気軽に書き残してください。</p></div><span>最新50件</span></div>
     <form id="comment-form" class="comment-form" novalidate>
       <div class="comment-field"><label for="comment-name">ハンドルネーム</label><input id="comment-name" name="name" type="text" maxlength="30" autocomplete="nickname" placeholder="30文字以内" required></div>
       <div class="comment-field"><label for="comment-content">投稿内容</label><textarea id="comment-content" name="content" maxlength="500" rows="4" placeholder="500文字以内" required></textarea><span id="comment-counter">0 / 500</span></div>
@@ -78,10 +78,11 @@
 
   <footer><a href="https://github.com/aeia820/prime-number-checker" target="_blank" rel="noopener noreferrer" aria-label="GitHubで aeia820/prime-number-checker を開く"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a12 12 0 0 0-3.79 23.38c.6.11.82-.26.82-.58v-2.1c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23A11.5 11.5 0 0 1 12 6.92c1.02 0 2.04.14 3 .4 2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22v2.87c0 .32.22.7.83.58A12 12 0 0 0 12 .7Z"/></svg><span>aeia820</span></a></footer>
 </main>
-<script src="script.js"></script>
-<script src="comments.js"></script>
+<script src="script.js?v=20260802-2"></script>
+<script src="comments.js?v=20260802-2"></script>
 </body>
 </html>
+
 
 
 

@@ -158,3 +158,23 @@
 .comments-list{display:grid;gap:0}.comment-item{padding:18px 2px;border-bottom:1px solid #e1e5e7}.comment-item:last-child{border-bottom:0}.comment-item header{display:flex;align-items:baseline;justify-content:space-between;gap:12px}.comment-item strong{font-size:.8rem}.comment-item time{color:var(--muted);font-size:.65rem}.comment-item p{margin:9px 0 0;color:#43505a;font-size:.82rem;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}.comment-error{margin:0;padding:18px;color:var(--prime);font-size:.75rem;text-align:center}
 @media(max-width:600px){.history-list{grid-template-columns:1fr}.comments-area{padding:18px 14px}.comment-form{grid-template-columns:1fr}.comment-submit-row{align-items:flex-end;flex-direction:column}.comment-submit-row p{width:100%}.comment-submit-row button{width:100%}.comment-item header{align-items:flex-start;flex-direction:column;gap:3px}}
 
+
+/* Refined history and guestbook layout */
+.history-heading>span{color:var(--muted);font-size:.65rem}
+.comments-area{border-top:3px solid var(--accent);padding:28px}
+.comments-header{align-items:flex-start}
+.comments-header>div>p:last-child{margin:7px 0 0;color:var(--muted);font-size:.76rem}
+.comment-form{display:block;margin-top:22px;padding:18px 20px 20px;border:1px solid var(--line);background:var(--soft)}
+.comment-field{margin-bottom:15px}
+.comment-field:first-child{max-width:320px}
+.comment-field input,.comment-field textarea{background:var(--paper)}
+.comment-submit-row{display:flex;margin-top:4px}
+.comments-list{gap:10px;margin-top:22px}
+.comment-item{padding:17px 18px;border:1px solid var(--line);background:#fff}
+.comment-item:last-child{border-bottom:1px solid var(--line)}
+.comment-item header{justify-content:flex-start;gap:10px}
+.comment-avatar{display:grid;width:34px;height:34px;flex:0 0 34px;place-items:center;border-radius:50%;background:#e8eef2;color:var(--accent);font:700 .8rem "Source Serif 4","Noto Sans JP",serif}
+.comment-meta{display:flex;min-width:0;flex-direction:column;gap:2px}
+.comment-meta strong{font-size:.78rem}.comment-meta time{color:var(--muted);font-size:.62rem}
+.comment-item>p{margin:11px 0 0 44px}
+@media(max-width:600px){.comments-area{padding:20px 14px}.comment-form{padding:16px 13px}.comment-submit-row{align-items:stretch}.comment-item{padding:15px 13px}.comment-item>p{margin-left:0}.history-list li a{grid-template-columns:1fr auto}.history-list time{grid-column:1/-1}}

@@ -241,10 +241,7 @@ $('#history-list').addEventListener('click', (event) => {
   input.value = link.dataset.number;
   input.focus();
 });
-$('#clear-history').addEventListener('click', () => {
-  localStorage.removeItem(HISTORY_KEY);
-  renderHistory();
-});
 renderHistory();
+
 
 

@@ -22,16 +22,21 @@ function renderComments(comments) {
   comments.forEach((comment) => {
     const article = document.createElement('article'); article.className = 'comment-item';
     const header = document.createElement('header');
+    const avatar = document.createElement('span');
+    avatar.className = 'comment-avatar';
+    avatar.textContent = comment.handle_name.slice(0, 1).toUpperCase();
+    const meta = document.createElement('div');
+    meta.className = 'comment-meta';
     const name = document.createElement('strong'); name.textContent = comment.handle_name;
     const date = document.createElement('time'); date.dateTime = comment.created_at; date.textContent = formatCommentDate(comment.created_at);
     const content = document.createElement('p'); content.textContent = comment.content;
-    header.append(name, date); article.append(header, content); commentsList.appendChild(article);
+    meta.append(name, date); header.append(avatar, meta); article.append(header, content); commentsList.appendChild(article);
   });
 }
 
 async function loadComments() {
   try {
-    const response = await fetch(`${COMMENTS_ENDPOINT}?select=id,handle_name,content,created_at&order=created_at.desc&limit=50`, { headers: apiHeaders });
+    const response = await fetch(`${COMMENTS_ENDPOINT}?select=id,handle_name,content,created_at&id=neq.2&order=created_at.desc&limit=50`, { headers: apiHeaders });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     renderComments(await response.json());
   } catch {
@@ -64,3 +69,5 @@ commentForm.addEventListener('submit', async (event) => {
 });
 
 loadComments();
+
+
